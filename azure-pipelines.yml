@@ -6,6 +6,7 @@ parameters:
     type: string
     default: |
       gustavodaflon@seventechnologies.cloud
+      leonardoviana@seventechnologies.cloud
 
 variables:
 - group: pythonrest-cli
