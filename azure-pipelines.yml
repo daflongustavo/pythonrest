@@ -35,21 +35,22 @@ jobs:
 - job: CheckChocoCLIVersion
   displayName: 'Check CLI version'
   pool:
-    vmImage: 'windows-latest'
+    vmImage: 'ubuntu-latest'
   variables:
     NEEDS_MANUAL_APPROVAL: $[eq(variables['cli_version'], variables['nuspecVersion'])]
   steps:
-  - powershell: |
-      $nuspecVersion = [xml](Get-Content -Path .\$(app_name).nuspec).package.metadata.version
-      $cliVersion = $env:cli_version
+  - bash: |
+      nuspecVersion=$(xmllint --xpath "string(/package/metadata/version)" $(app_name).nuspec)
+      cliVersion=$cli_version
 
-      if (-not ($cliVersion -ceq $nuspecVersion)) {
-          Write-Error "Value for variable cli_version = '$($env:cli_version)' does not match the one in .nuspec file: nuspec_version."
+      if [ "$cliVersion" != "$nuspecVersion" ]; then
+          echo "Value for variable cli_version = '$cli_version' does not match the one in .nuspec file: nuspec_version."
           exit 1
-      }
+      fi
 
-      Write-Host "The versions match. Proceeding to Manual Approval..."
+      echo "The versions match. Proceeding to Manual Approval..."
     displayName: 'Verify Choco CLI Version'
+
 
 - job: manual_approval
   dependsOn: CheckChocoCLIVersion
