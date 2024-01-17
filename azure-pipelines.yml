@@ -6,7 +6,6 @@ parameters:
     type: string
     default: |
       gustavodaflon@seventechnologies.cloud
-      leonardoviana@seventechnologies.cloud
 
 variables:
 - group: pythonrest-cli
@@ -48,10 +47,10 @@ jobs:
           Write-Error "Value for variable cli_version = '$($env:cli_version)' does not match the one in .nuspec file: nuspec_version."
           exit 1
       }
-      elseif ($cliVersion -eq $nuspecVersion) {
-          Write-Host "The versions match. Proceeding to Manual Approval..."
-      }
+
+      Write-Host "The versions match. Proceeding to Manual Approval..."
     displayName: 'Verify Version'
+
 
 - job: manual_approval
   dependsOn: CheckChocoCLIVersion
