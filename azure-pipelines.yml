@@ -33,7 +33,7 @@ jobs:
       fi
 
 - job: CheckChocoCLIVersion
-  displayName: 'Check CLI version'
+  displayName: 'Check Choco CLI version'
   pool:
     vmImage: 'ubuntu-latest'
   variables:
