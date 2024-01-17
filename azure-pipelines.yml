@@ -40,10 +40,12 @@ jobs:
     NEEDS_MANUAL_APPROVAL: $[eq(variables['cli_version'], variables['nuspecVersion'])]
   steps:
   - powershell: |
-      $nuspecVersion = [xml](Get-Content -Path .\$(app_name).nuspec).package.metadata.version
-      $cliVersion = $env:cli_version
+      $nuspecVersion = [System.Version]([xml](Get-Content -Path .\$(app_name).nuspec).package.metadata.version)
+      $cliVersion = [System.Version]$env:cli_version
 
-      if ($cliVersion -ne $nuspecVersion) {
+      $versionComparison = $cliVersion.CompareTo($nuspecVersion)
+
+      if ($versionComparison -ne 0) {
           Write-Error "Value for variable cli_version = '$($env:cli_version)' does not match the one in .nuspec file: nuspec_version."
           exit 1
       }
