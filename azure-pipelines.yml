@@ -40,17 +40,16 @@ jobs:
     NEEDS_MANUAL_APPROVAL: $[eq(variables['cli_version'], variables['nuspecVersion'])]
   steps:
   - bash: |
-      nuspecVersion=$(xmllint --xpath "string(/package/metadata/version)" $(app_name).nuspec)
+      nuspecVersion=$(grep -oP '<version>\K[^<]+' $(app_name).nuspec)
       cliVersion=$cli_version
 
-      if [ "$cliVersion" -ne "$nuspecVersion" ]; then
+      if [ "$cliVersion" != "$nuspecVersion" ]; then
           echo "Value for variable cli_version = '$cli_version' does not match the one in .nuspec file: nuspec_version."
           exit 1
       fi
 
       echo "The versions match. Proceeding to Manual Approval..."
     displayName: 'Verify Choco CLI Version'
-
 
 - job: manual_approval
   dependsOn: CheckChocoCLIVersion
