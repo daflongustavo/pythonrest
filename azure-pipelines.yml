@@ -43,7 +43,7 @@ jobs:
       nuspecVersion=$(xmllint --xpath "string(/package/metadata/version)" $(app_name).nuspec)
       cliVersion=$cli_version
 
-      if [ "$cliVersion" != "$nuspecVersion" ]; then
+      if [ "$cliVersion" -ne "$nuspecVersion" ]; then
           echo "Value for variable cli_version = '$cli_version' does not match the one in .nuspec file: nuspec_version."
           exit 1
       fi
