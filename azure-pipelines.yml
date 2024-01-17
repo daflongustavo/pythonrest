@@ -48,7 +48,7 @@ jobs:
           Write-Error "Value for variable cli_version = '$($env:cli_version)' does not match the one in .nuspec file: nuspec_version."
           exit 1
       }
-      else ($cliVersion -eq $nuspecVersion) {
+      elseif ($cliVersion -eq $nuspecVersion) {
           Write-Host "The versions match. Proceeding to Manual Approval..."
       }
     displayName: 'Verify Version'
