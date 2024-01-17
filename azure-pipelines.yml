@@ -12,6 +12,7 @@ variables:
 
 jobs:
 - job: CheckPypiVersionBeforePublishing
+  displayName: Version Check to publish or not
   pool:
     vmImage: ubuntu-latest
   steps:
@@ -33,7 +34,7 @@ jobs:
       fi
 
 - job: CheckChocoCLIVersion
-  displayName: 'Check CLI version'
+  displayName: 'Check Choco CLI version'
   pool:
     vmImage: 'ubuntu-latest'
   variables:
